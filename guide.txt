@@ -1,0 +1,25 @@
+请执行以下安装及步骤运行此程序
+------------------------------
+
+1. 安装Python 2.7.8 for windows 64bit, 下载地址：
+	http://www.python.org
+	
+2. 安装 pywin32 for Python2.7, 下载地址：
+	http://nchc.dl.sourceforge.net/project/pywin32/pywin32/Build%20220/pywin32-220.win-amd64-py2.7.exe
+
+3. 设置Python执行路径到path环境,如:
+	1) set path=c:\develop\python2.7.8;c:\develop\python2.7.8\Scripts;%path%
+	2) 或在系统环境变量设置里将python上述两路径加进path变量里
+	
+4. 安装pip, 下载地址:
+	http://www.python.org
+	
+5. 安装Python第三方包Scrapy, 命令行窗口执行:
+	pip install Scrapy
+	
+6. 执行本程序:
+	1) 打开命令行窗口，切换当前目录到com500工程目录
+		如：cd /d C:\Users\zhamingg\Projects\OpenSource\com500
+	2) 执行脚本
+		python run_scrapy.py
+	3) 数据文件生成在当前目录，名为com500-europe.txt, com500-kelly.txt
