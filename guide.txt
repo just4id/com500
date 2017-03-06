@@ -1,25 +1,28 @@
-ÇëÖ´ĞĞÒÔÏÂ°²×°¼°²½ÖèÔËĞĞ´Ë³ÌĞò
-------------------------------
+ï»¿è¯·æ‰§è¡Œä»¥ä¸‹å®‰è£…åŠæ­¥éª¤è¿è¡Œæ­¤ç¨‹åº
+--------------------------------------------
 
-1. °²×°Python 2.7.8 for windows 64bit, ÏÂÔØµØÖ·£º
+1. å®‰è£…Python 2.7.8 for windows 64bit, ä¸‹è½½åœ°å€ï¼š
 	http://www.python.org
 	
-2. °²×° pywin32 for Python2.7, ÏÂÔØµØÖ·£º
+2. å®‰è£… pywin32 for Python2.7, ä¸‹è½½åœ°å€ï¼š
 	http://nchc.dl.sourceforge.net/project/pywin32/pywin32/Build%20220/pywin32-220.win-amd64-py2.7.exe
 
-3. ÉèÖÃPythonÖ´ĞĞÂ·¾¶µ½path»·¾³,Èç:
+3. è®¾ç½®Pythonæ‰§è¡Œè·¯å¾„åˆ°pathç¯å¢ƒ,å¦‚:
 	1) set path=c:\develop\python2.7.8;c:\develop\python2.7.8\Scripts;%path%
-	2) »òÔÚÏµÍ³»·¾³±äÁ¿ÉèÖÃÀï½«pythonÉÏÊöÁ½Â·¾¶¼Ó½øpath±äÁ¿Àï
+	2) æˆ–åœ¨ç³»ç»Ÿç¯å¢ƒå˜é‡è®¾ç½®é‡Œå°†pythonä¸Šè¿°ä¸¤è·¯å¾„åŠ è¿›pathå˜é‡é‡Œ
 	
-4. °²×°pip, ÏÂÔØµØÖ·:
+4. å®‰è£…pip, ä¸‹è½½åœ°å€:
 	http://www.python.org
 	
-5. °²×°PythonµÚÈı·½°üScrapy, ÃüÁîĞĞ´°¿ÚÖ´ĞĞ:
+5. å®‰è£…Pythonç¬¬ä¸‰æ–¹åŒ…Scrapy, å‘½ä»¤è¡Œçª—å£æ‰§è¡Œ:
 	pip install Scrapy
 	
-6. Ö´ĞĞ±¾³ÌĞò:
-	1) ´ò¿ªÃüÁîĞĞ´°¿Ú£¬ÇĞ»»µ±Ç°Ä¿Â¼µ½com500¹¤³ÌÄ¿Â¼
-		Èç£ºcd /d C:\Users\zhamingg\Projects\OpenSource\com500
-	2) Ö´ĞĞ½Å±¾
-		python run_scrapy.py
-	3) Êı¾İÎÄ¼şÉú³ÉÔÚµ±Ç°Ä¿Â¼£¬ÃûÎªcom500-europe.txt, com500-kelly.txt
+6. æ‰§è¡Œæœ¬ç¨‹åº:
+	1) æ‰“å¼€å‘½ä»¤è¡Œçª—å£ï¼Œåˆ‡æ¢å½“å‰ç›®å½•åˆ°com500å·¥ç¨‹ç›®å½•
+		å¦‚ï¼šcd /d C:\Users\zhamingg\Projects\OpenSource\com500
+	2) æ‰§è¡Œ:
+		2.1 æ‰¹å¤„ç†æ–¹å¼è¯·æ‰§è¡Œ: run.bat
+		2.2 å•ç‹¬é’ˆå¯¹æŸä¸€ä¸ªåœºæ¬¡é¡µé¢æ‰§è¡Œ: python run_scrapy.py [page_fid]ï¼Œå¦‚
+		                   python run_scrapy.py 12345
+	3) æ•°æ®æ–‡ä»¶ç”Ÿæˆåœ¨å½“å‰ç›®å½•ï¼Œåä¸ºcom500-XXX.txt
+	4) ç®€å•æ‰§è¡Œ: run.bat

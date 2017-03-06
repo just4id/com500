@@ -16,16 +16,15 @@ sys.setdefaultencoding('utf-8')
 class YazhiSpider(Spider):
     name = "yazhi"
     allowed_domains = ["500.com"]
-    types = ['europe', 'kelly']
     fid = '397941'
     file_path = '.'
-    sort_dict_europe = sort_dict_kelly = {}
+    sort_dict_europe = {}
     j = i = 0
     sleep_second = 0
     blank_d = 32
 
-    xhr_url = "http://odds.500.com/fenxi1/json/ouzhi.php?fid=%s&cid=%s&r=1&time=%s&type=%s"
-    start_urls = ["http://odds.500.com/fenxi/ouzhi-%s.shtml" %fid]
+    xhr_url = "http://odds.500.com/fenxi1/inc/yazhiajax.php?fid=%s&id=%s&r=1&t=1469551520048"
+    start_urls = ["http://odds.500.com/fenxi/yazhi-%s.shtml" %fid]
 
     def parse(self, response):
         """
@@ -36,13 +35,13 @@ class YazhiSpider(Spider):
         @scrapes name
         """
         sel = Selector(response)
-        trs = sel.xpath('//div[@class="odds_content"]/div[@id="table_cont"]/table[@id="datatb"]/tr[@xls="row"]')
+        trs = sel.xpath('//div[@class="odds_content odds_yazhi"]/div[@id="table_cont"]/table[@id="datatb"]/tr[@xls="row"]')
         row_no = 0
 
         for tr in trs:
             att = tr.root.attrib
-            cid = att.get('id')
-            data_time = att.get('data-time')
+            id = att.get('id')
+            dt = att.get('dt')
             row_no += 1
             url = ''
             title = ''
@@ -73,24 +72,15 @@ class YazhiSpider(Spider):
             item = dict()
             item['row_no'] = row_no
             item['title'] = title
-            item['cid'] = cid
-            item['data_time'] = data_time
+            item['id'] = id
+            item['dt'] = dt
             item['url'] = url
             item['onclick'] = onclick
             
-            x_url_u = self.xhr_url %(self.fid, cid, data_time, self.types[0])
+            x_url_u = self.xhr_url %(self.fid, id)
             self.sort_dict_europe[x_url_u] = [row_no, item]
-            x_url_k = self.xhr_url %(self.fid, cid, data_time, self.types[1])
-            self.sort_dict_kelly[x_url_k] = [row_no, item]
-        
-        for x_url in self.sort_dict_europe.keys():
-            time.sleep(self.sleep_second)
-            req = Request(x_url,
-                              callback=self.parse_code,
-                              meta={'item': item})
-            yield req
 
-        for x_url in self.sort_dict_kelly.keys():
+        for x_url in self.sort_dict_europe.keys():
             time.sleep(self.sleep_second)
             req = Request(x_url,
                               callback=self.parse_code,
@@ -99,28 +89,22 @@ class YazhiSpider(Spider):
 
     def parse_code(self, response):
         x_url = response.url.replace('%20', ' ')
-        d_type = self.types[0] if self.types[0] in x_url else self.types[1]
-        row_no = str(self.sort_dict_europe[x_url][0] if self.types[0] in x_url  else self.sort_dict_kelly[x_url][0])
+        row_no = str(self.sort_dict_europe[x_url][0])
         com_name = self.sort_dict_europe[x_url][1].get('title')
         header = '%s%s(%s)' %('No.', row_no, str(com_name))
         header = (header + (' ' * (self.blank_d - len(header)))) if len(header) < self.blank_d else header
         line = '%s:%s' %(header, response.body)
         
-        self.gen_file(line, d_type)
-
+        self.gen_file(line, self.name)
         return {row_no: line}
     
     def gen_file(self, line, d_type):
-        filename = os.path.join(self.file_path, ('com500-%s.txt' %d_type))
+        filename = os.path.join(self.file_path, ('com500-%s.txt' % d_type))
 
         f = None
         try:
-            if self.types[0] in d_type:
-                f = open(filename,("%s" %('w' if self.i == 0 else 'a'))) 
-                self.i += 1
-            else:
-                f = open(filename,("%s" %('w' if self.j == 0 else 'a')))
-                self.j += 1
+            f = open(filename, ("%s" %('w' if self.i == 0 else 'a')))
+            self.i += 1
             # print line
             f.write(str(line) + '\n')
         except Exception, e:

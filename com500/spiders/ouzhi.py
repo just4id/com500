@@ -15,9 +15,16 @@ sys.setdefaultencoding('utf-8')
 
 class DmozSpider(Spider):
     name = "ouzhi"
+    
+    def __init__(self, **kwargs):
+        self.fid = kwargs.values()[0]
+        self.start_urls = ["http://odds.500.com/fenxi/ouzhi-%s.shtml" %self.fid]
+        print self.start_urls 
+        super(DmozSpider, self).__init__(**kwargs)
+
+    fid = 596481
     allowed_domains = ["500.com"]
     types = ['europe', 'kelly']
-    fid = '397941'
     file_path = '.'
     sort_dict_europe = sort_dict_kelly = {}
     j = i = 0
@@ -25,7 +32,7 @@ class DmozSpider(Spider):
     blank_d = 32
 
     xhr_url = "http://odds.500.com/fenxi1/json/ouzhi.php?fid=%s&cid=%s&r=1&time=%s&type=%s"
-    start_urls = ["http://odds.500.com/fenxi/ouzhi-%s.shtml" %fid]
+    start_urls = None
 
     def parse(self, response):
         """
@@ -80,8 +87,8 @@ class DmozSpider(Spider):
             
             x_url_u = self.xhr_url %(self.fid, cid, data_time, self.types[0])
             self.sort_dict_europe[x_url_u] = [row_no, item]
-            x_url_k = self.xhr_url %(self.fid, cid, data_time, self.types[1])
-            self.sort_dict_kelly[x_url_k] = [row_no, item]
+#             x_url_k = self.xhr_url %(self.fid, cid, data_time, self.types[1])
+#             self.sort_dict_kelly[x_url_k] = [row_no, item]
         
         for x_url in self.sort_dict_europe.keys():
             time.sleep(self.sleep_second)
@@ -90,13 +97,14 @@ class DmozSpider(Spider):
                               meta={'item': item})
             yield req
 
+        '''
         for x_url in self.sort_dict_kelly.keys():
             time.sleep(self.sleep_second)
             req = Request(x_url,
                               callback=self.parse_code,
                               meta={'item': item})
             yield req
-
+        '''
     def parse_code(self, response):
         x_url = response.url.replace('%20', ' ')
         d_type = self.types[0] if self.types[0] in x_url else self.types[1]
@@ -111,7 +119,7 @@ class DmozSpider(Spider):
         return {row_no: line}
     
     def gen_file(self, line, d_type):
-        filename = os.path.join(self.file_path, ('com500-%s.txt' %d_type))
+        filename = os.path.join(self.file_path, ('com500-%s-%s-%s.txt' %(self.fid, self.name, d_type)))
 
         f = None
         try:
